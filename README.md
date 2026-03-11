@@ -28,6 +28,8 @@ Sitio web profesional para **Adrián Cerón López**, Licenciado en Derecho con 
 - **Redes sociales** — Guía de contenido con consejos para atraer clientes locales
 - **Newsletter** — Formulario de suscripción por correo electrónico con feedback de éxito/error en página; enlace al Aviso de Privacidad
 - **Contacto** — Formulario con dos modos: WhatsApp (abre conversación prefilled) y Mensaje directo (guarda en Supabase, feedback en sitio); enlace al Aviso de Privacidad
+- **Testimonios** — Reseñas verificadas de clientes reales publicadas con permiso expreso
+- **Recursos legales** (`/recursos`) — Blog estático con artículos de orientación legal (divorcio, despido, herencias, inmuebles); mejora SEO
 - **Aviso de Privacidad** (`/aviso-de-privacidad`) — Página legal conforme a la LFPDPPP con derechos ARCO
 
 ### Panel de Administración (`/admin`)
@@ -58,6 +60,9 @@ ceron-abogado/
 │   │   │   └── newsletter/route.ts # API: suscripciones
 │   │   ├── aviso-de-privacidad/
 │   │   │   └── page.tsx            # Aviso de privacidad (LFPDPPP)
+│   │   ├── recursos/
+│   │   │   ├── page.tsx            # Listado de artículos legales
+│   │   │   └── [slug]/page.tsx     # Artículo individual (SSG)
 │   │   ├── layout.tsx              # Layout raíz (metadatos, fuentes)
 │   │   ├── page.tsx                # Página de inicio
 │   │   └── globals.css             # Estilos globales con Tailwind
@@ -71,11 +76,14 @@ ceron-abogado/
 │   │       ├── Servicios.tsx
 │   │       ├── Tarifas.tsx
 │   │       ├── Valores.tsx
+│   │       ├── Testimonios.tsx
+│   │       ├── Recursos.tsx
 │   │       ├── Redes.tsx
 │   │       ├── Contacto.tsx
 │   │       ├── ContactForm.tsx
 │   │       └── Newsletter.tsx
 │   ├── lib/
+│   │   ├── articles.ts             # Artículos del blog (datos estáticos)
 │   │   ├── supabase/
 │   │   │   ├── client.ts           # Cliente Supabase (browser)
 │   │   │   └── server.ts           # Clientes Supabase (servidor + admin)
@@ -256,6 +264,35 @@ El sitio incluye un **Aviso de Privacidad** en `/aviso-de-privacidad` conforme a
 - Autoridad supervisora: INAI
 
 Los formularios de contacto y newsletter muestran un aviso de consentimiento con enlace a esta página.
+
+---
+
+## Blog de Recursos Legales
+
+El sitio incluye un blog estático en `/recursos` con artículos de orientación legal. Las páginas se generan en build time (`generateStaticParams`) para máximo rendimiento SEO.
+
+### Agregar un artículo nuevo
+
+Edita `src/lib/articles.ts` y agrega un objeto al array `articles`:
+
+```ts
+{
+  slug: 'mi-nuevo-articulo',           // URL: /recursos/mi-nuevo-articulo
+  title: 'Título del artículo',
+  excerpt: 'Resumen de 1-2 oraciones visible en la tarjeta y en meta description.',
+  date: '2025-12-20',                  // ISO 8601
+  category: 'Derecho Familiar',        // usado para el badge de color
+  readTime: 4,                         // minutos estimados
+  content: [
+    { type: 'h2',   text: 'Subtítulo' },
+    { type: 'p',    text: 'Párrafo.' },
+    { type: 'ul',   items: ['Punto 1', 'Punto 2'] },
+    { type: 'note', text: 'Consejo destacado.' },
+  ],
+}
+```
+
+La sección en el homepage muestra automáticamente los 3 artículos más recientes.
 
 ---
 
