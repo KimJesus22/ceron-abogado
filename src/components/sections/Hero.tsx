@@ -1,4 +1,4 @@
-const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '524561266998'
+import { waUrl } from '@/lib/whatsapp'
 
 export default function Hero() {
   return (
@@ -20,9 +20,10 @@ export default function Hero() {
         </p>
         <a
           className="inline-flex items-center gap-2 bg-accent text-white font-semibold text-[0.95rem] px-8 py-3.5 rounded-lg transition-all hover:bg-accent-dark hover:-translate-y-px"
-          href={`https://wa.me/${WA_NUMBER}?text=Hola%20Adri%C3%A1n%2C%20me%20gustar%C3%ADa%20una%20consulta%20legal.`}
+          href={waUrl('Hola Adrián, me gustaría una consulta legal.')}
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
+          aria-label="Consulta por WhatsApp con Adrián Cerón López"
         >
           💬 Consulta por WhatsApp
         </a>

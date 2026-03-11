@@ -1,4 +1,4 @@
-const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '524561266998'
+import { waUrl } from '@/lib/whatsapp'
 
 const tarifas = [
   { nombre: 'Primera consulta', precio: 'Gratuita', desc: 'Platicamos tu situación sin costo ni compromiso.', destacada: true },
@@ -50,9 +50,10 @@ export default function Tarifas() {
         <div className="text-center mt-6">
           <a
             className="inline-flex items-center gap-2 bg-accent text-white font-semibold text-[0.95rem] px-8 py-3.5 rounded-lg transition-all hover:bg-accent-dark hover:-translate-y-px"
-            href={`https://wa.me/${WA_NUMBER}?text=Hola%20Adri%C3%A1n%2C%20quisiera%20una%20cotizaci%C3%B3n%20para%20mi%20caso.`}
+            href={waUrl('Hola Adrián, quisiera una cotización para mi caso.')}
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
+            aria-label="Pedir cotización personalizada por WhatsApp"
           >
             💬 Pedir cotización personalizada
           </a>

@@ -52,7 +52,8 @@ export default function Sobre() {
             <a
               href="/cedula-adrian-ceron.pdf"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
+              aria-label="Ver cédula profesional de Adrián Cerón López (PDF, abre en nueva pestaña)"
               className="inline-flex items-center gap-2 bg-[#f0f4ff] text-accent text-[0.85rem] font-semibold px-4 py-2 rounded-lg border border-[#bfdbfe] mt-4 transition-colors hover:bg-[#dbeafe]"
             >
               📄 Ver cédula profesional

@@ -26,8 +26,8 @@ Sitio web profesional para **Adrián Cerón López**, Licenciado en Derecho con 
 - **Tarifas** — Precios transparentes en MXN con opción de cotización personalizada vía WhatsApp
 - **Valores** — Cuatro pilares: atención personalizada, transparencia, comunicación constante y ética profesional
 - **Redes sociales** — Guía de contenido con consejos para atraer clientes locales
-- **Newsletter** — Formulario de suscripción por correo electrónico
-- **Contacto** — Formulario de contacto con integración a WhatsApp y datos de ubicación
+- **Newsletter** — Formulario de suscripción por correo electrónico con feedback de éxito/error en página
+- **Contacto** — Formulario con dos modos: WhatsApp (abre conversación prefilled) y Mensaje directo (guarda en Supabase, feedback en sitio)
 
 ### Panel de Administración (`/admin`)
 - Acceso protegido con autenticación por correo y contraseña (Supabase Auth)
@@ -36,7 +36,7 @@ Sitio web profesional para **Adrián Cerón López**, Licenciado en Derecho con 
 - Cierre de sesión seguro
 
 ### API Routes
-- `POST /api/leads` — Almacena formularios de contacto en Supabase
+- `POST /api/leads` — Almacena formularios de contacto en Supabase; envía notificación por correo si `RESEND_API_KEY` está configurado
 - `POST /api/newsletter` — Gestiona suscripciones de correo (con detección de duplicados)
 
 ---
@@ -76,6 +76,7 @@ ceron-abogado/
 │   │   ├── supabase/
 │   │   │   ├── client.ts           # Cliente Supabase (browser)
 │   │   │   └── server.ts           # Clientes Supabase (servidor + admin)
+│   │   ├── whatsapp.ts             # Fuente única de WA_NUMBER y helper waUrl()
 │   │   └── types.ts                # Tipos TypeScript
 │   └── proxy.ts                    # Middleware de autenticación
 ├── supabase/
@@ -146,6 +147,10 @@ NEXT_PUBLIC_SUPABASE_URL=https://<tu-proyecto>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<tu-anon-key>
 SUPABASE_SERVICE_ROLE_KEY=<tu-service-role-key>
 NEXT_PUBLIC_WHATSAPP_NUMBER=524561266998
+
+# Opcional — notificación por correo al recibir un lead
+RESEND_API_KEY=
+CONTACT_EMAIL=
 ```
 
 ### 4. Configurar la base de datos
@@ -202,6 +207,8 @@ El proyecto está listo para desplegarse en **Vercel**:
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Pública | Clave anónima de Supabase |
 | `SUPABASE_SERVICE_ROLE_KEY` | Privada (servidor) | Clave de rol de servicio (nunca exponer al cliente) |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | Pública | Número de WhatsApp Business (con código de país) |
+| `RESEND_API_KEY` | Privada (servidor) | API key de [Resend](https://resend.com) — opcional, tier gratuito disponible |
+| `CONTACT_EMAIL` | Privada (servidor) | Correo destino de notificaciones (por defecto: `ceronadrian770@gmail.com`) |
 
 ---
 
@@ -210,8 +217,38 @@ El proyecto está listo para desplegarse en **Vercel**:
 - Las rutas `/admin/*` están protegidas con middleware de autenticación ([src/proxy.ts](src/proxy.ts))
 - Las API routes usan el cliente admin de Supabase con la clave de servicio
 - RLS habilitado en todas las tablas — los datos solo son accesibles para usuarios autenticados
-- Las variables sensibles (`SUPABASE_SERVICE_ROLE_KEY`) nunca se exponen al cliente
+- Las variables sensibles (`SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`) nunca se exponen al cliente
 - `.env.local` está en `.gitignore`
+
+---
+
+## Accesibilidad
+
+- Todos los enlaces externos usan `rel="noopener noreferrer"` y `target="_blank"` para prevenir tabnapping
+- Los enlaces de WhatsApp y redes sociales incluyen `aria-label` descriptivo con aviso de nueva pestaña
+- El botón de menú hamburguesa declara `aria-expanded`, `aria-controls` y `aria-label` dinámico
+- Inputs de formulario vinculados a `<label>` mediante `htmlFor`/`id` (newsletter usa label visualmente oculto con `.sr-only`)
+- Mensajes de estado usan `role="status"` (éxito/info) y `role="alert"` (errores) para lectores de pantalla
+- Los botones deshabilitados incluyen `disabled:cursor-not-allowed` para feedback visual
+- La navegación principal tiene `aria-label="Navegación principal"` como landmark ARIA
+- Los SVGs decorativos no tienen texto alternativo innecesario (contenidos en `<a>` con `aria-label` propio)
+
+---
+
+## Utilidades Compartidas
+
+### `src/lib/whatsapp.ts`
+
+Fuente única del número de WhatsApp y helper para construir URLs:
+
+```ts
+import { waUrl } from '@/lib/whatsapp'
+
+waUrl()                                    // https://wa.me/524561266998
+waUrl('Hola Adrián, necesito asesoría.')   // https://wa.me/524561266998?text=...
+```
+
+Cambiar el número solo requiere editar `NEXT_PUBLIC_WHATSAPP_NUMBER` en `.env.local`.
 
 ---
 

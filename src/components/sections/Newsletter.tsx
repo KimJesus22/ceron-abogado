@@ -37,21 +37,27 @@ export default function Newsletter() {
       </p>
 
       {status === 'success' ? (
-        <p className="text-[0.9rem] text-[#16a34a] font-semibold">✓ ¡Suscrito! Gracias por unirte.</p>
+        <p role="status" className="text-[0.9rem] text-[#16a34a] font-semibold">✓ ¡Suscrito! Gracias por unirte.</p>
       ) : (
-        <form onSubmit={handleSubmit} className="flex gap-3 flex-wrap">
+        <form onSubmit={handleSubmit} className="flex gap-3 flex-wrap" aria-label="Suscripción al newsletter">
+          <label htmlFor="newsletter-email" className="sr-only">
+            Correo electrónico
+          </label>
           <input
+            id="newsletter-email"
             type="email"
             required
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="tu@correo.com"
+            autoComplete="email"
             className="flex-1 min-w-[200px] px-4 py-2.5 border border-[#bfdbfe] rounded-lg text-[0.92rem] bg-white outline-none focus:border-accent transition-colors"
           />
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="px-6 py-2.5 bg-accent text-white rounded-lg font-bold text-[0.9rem] hover:bg-accent-dark transition-colors disabled:opacity-60"
+            aria-label={status === 'loading' ? 'Enviando suscripción…' : 'Suscribirme al newsletter'}
+            className="px-6 py-2.5 bg-accent text-white rounded-lg font-bold text-[0.9rem] hover:bg-accent-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {status === 'loading' ? 'Enviando…' : 'Suscribirme'}
           </button>
@@ -59,10 +65,10 @@ export default function Newsletter() {
       )}
 
       {status === 'duplicate' && (
-        <p className="mt-2 text-[0.82rem] text-muted">Este correo ya está suscrito.</p>
+        <p role="status" className="mt-2 text-[0.82rem] text-muted">Este correo ya está suscrito.</p>
       )}
       {status === 'error' && (
-        <p className="mt-2 text-[0.82rem] text-red-500">Ocurrió un error. Intenta de nuevo.</p>
+        <p role="alert" className="mt-2 text-[0.82rem] text-red-500">Ocurrió un error. Intenta de nuevo.</p>
       )}
     </div>
   )

@@ -26,5 +26,32 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Error interno' }, { status: 500 })
   }
 
+  // Notificación por correo (opcional — solo si RESEND_API_KEY está configurado)
+  if (process.env.RESEND_API_KEY) {
+    const to = process.env.CONTACT_EMAIL ?? 'ceronadrian770@gmail.com'
+    const html = `
+      <h2>Nuevo contacto desde el sitio web</h2>
+      <table style="border-collapse:collapse;width:100%;max-width:500px">
+        <tr><td style="padding:8px;font-weight:bold;background:#f3f4f6">Nombre</td><td style="padding:8px">${name.trim()}</td></tr>
+        <tr><td style="padding:8px;font-weight:bold;background:#f3f4f6">Teléfono</td><td style="padding:8px">${phone?.trim() || '—'}</td></tr>
+        <tr><td style="padding:8px;font-weight:bold;background:#f3f4f6">Área</td><td style="padding:8px">${subject?.trim() || '—'}</td></tr>
+        <tr><td style="padding:8px;font-weight:bold;background:#f3f4f6">Mensaje</td><td style="padding:8px">${message?.trim() || '—'}</td></tr>
+      </table>
+    `
+    fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Cerón Abogado <onboarding@resend.dev>',
+        to:   [to],
+        subject: `Nuevo contacto: ${name.trim()}`,
+        html,
+      }),
+    }).catch(err => console.error('[leads:email]', err))
+  }
+
   return NextResponse.json({ ok: true }, { status: 201 })
 }
