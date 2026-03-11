@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { waUrl } from '@/lib/whatsapp'
 
 const areas = ['', 'Derecho Familiar', 'Derecho Civil', 'Derecho Penal', 'Derecho Laboral', 'Asesoría Preventiva', 'Derecho Inmobiliario', 'Otro']
@@ -106,7 +107,7 @@ export default function ContactForm() {
         </p>
       )}
 
-      <form onSubmit={handleSubmit} noValidate>
+      <form onSubmit={handleSubmit}>
         <div className="mb-5">
           <label htmlFor="cf-nombre" className="block text-[0.85rem] font-semibold mb-1.5">
             Nombre <span aria-hidden="true" className="text-red-500">*</span>
@@ -115,6 +116,8 @@ export default function ContactForm() {
             id="cf-nombre"
             name="nombre"
             required
+            minLength={2}
+            maxLength={100}
             autoComplete="name"
             className={inputClass}
             placeholder="Tu nombre completo"
@@ -129,6 +132,8 @@ export default function ContactForm() {
             id="cf-telefono"
             name="telefono"
             type="tel"
+            pattern="[\d\s\-\+\(\)]{10,20}"
+            title="Ingresa un número válido (mínimo 10 dígitos)"
             autoComplete="tel"
             className={inputClass}
             placeholder="10 dígitos"
@@ -154,6 +159,7 @@ export default function ContactForm() {
             id="cf-mensaje"
             name="mensaje"
             rows={4}
+            maxLength={1000}
             className={`${inputClass} resize-y min-h-[100px]`}
             placeholder="Describe brevemente tu situación..."
           />
@@ -191,6 +197,15 @@ export default function ContactForm() {
             ❌ {errorMsg}
           </p>
         )}
+
+        {/* Aviso de privacidad */}
+        <p className="mt-4 text-center text-[0.78rem] text-muted">
+          Al enviar aceptas el tratamiento de tus datos conforme a nuestro{' '}
+          <Link href="/aviso-de-privacidad" className="text-accent hover:underline">
+            Aviso de Privacidad
+          </Link>
+          .
+        </p>
       </form>
     </div>
   )

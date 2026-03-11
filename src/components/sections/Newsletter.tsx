@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function Newsletter() {
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'error'>('idle')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'unconfigured' | 'error'>('idle')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -16,6 +17,7 @@ export default function Newsletter() {
         body: JSON.stringify({ email }),
       })
       if (res.status === 409) { setStatus('duplicate'); return }
+      if (res.status === 503) { setStatus('unconfigured'); return }
       if (!res.ok) { setStatus('error'); return }
       setStatus('success')
       setEmail('')
@@ -67,9 +69,20 @@ export default function Newsletter() {
       {status === 'duplicate' && (
         <p role="status" className="mt-2 text-[0.82rem] text-muted">Este correo ya está suscrito.</p>
       )}
-      {status === 'error' && (
-        <p role="alert" className="mt-2 text-[0.82rem] text-red-500">Ocurrió un error. Intenta de nuevo.</p>
+      {status === 'unconfigured' && (
+        <p role="alert" className="mt-2 text-[0.82rem] text-amber-600">El servicio aún no está configurado. Inténtalo más tarde.</p>
       )}
+      {status === 'error' && (
+        <p role="alert" className="mt-2 text-[0.82rem] text-red-500">No se pudo procesar la suscripción. Intenta de nuevo.</p>
+      )}
+
+      <p className="mt-4 text-[0.75rem] text-muted">
+        Al suscribirte aceptas el tratamiento de tu correo conforme a nuestro{' '}
+        <Link href="/aviso-de-privacidad" className="text-accent hover:underline">
+          Aviso de Privacidad
+        </Link>
+        .
+      </p>
     </div>
   )
 }

@@ -26,8 +26,9 @@ Sitio web profesional para **Adrián Cerón López**, Licenciado en Derecho con 
 - **Tarifas** — Precios transparentes en MXN con opción de cotización personalizada vía WhatsApp
 - **Valores** — Cuatro pilares: atención personalizada, transparencia, comunicación constante y ética profesional
 - **Redes sociales** — Guía de contenido con consejos para atraer clientes locales
-- **Newsletter** — Formulario de suscripción por correo electrónico con feedback de éxito/error en página
-- **Contacto** — Formulario con dos modos: WhatsApp (abre conversación prefilled) y Mensaje directo (guarda en Supabase, feedback en sitio)
+- **Newsletter** — Formulario de suscripción por correo electrónico con feedback de éxito/error en página; enlace al Aviso de Privacidad
+- **Contacto** — Formulario con dos modos: WhatsApp (abre conversación prefilled) y Mensaje directo (guarda en Supabase, feedback en sitio); enlace al Aviso de Privacidad
+- **Aviso de Privacidad** (`/aviso-de-privacidad`) — Página legal conforme a la LFPDPPP con derechos ARCO
 
 ### Panel de Administración (`/admin`)
 - Acceso protegido con autenticación por correo y contraseña (Supabase Auth)
@@ -55,6 +56,8 @@ ceron-abogado/
 │   │   ├── api/
 │   │   │   ├── leads/route.ts      # API: formularios de contacto
 │   │   │   └── newsletter/route.ts # API: suscripciones
+│   │   ├── aviso-de-privacidad/
+│   │   │   └── page.tsx            # Aviso de privacidad (LFPDPPP)
 │   │   ├── layout.tsx              # Layout raíz (metadatos, fuentes)
 │   │   ├── page.tsx                # Página de inicio
 │   │   └── globals.css             # Estilos globales con Tailwind
@@ -144,7 +147,9 @@ cp .env.example .env.local
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://<tu-proyecto>.supabase.co
+# El dashboard de Supabase puede llamarla "anon key" o "publishable key" — ambas funcionan:
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<tu-anon-key>
+# Clave secreta de servicio (Project Settings → API → service_role):
 SUPABASE_SERVICE_ROLE_KEY=<tu-service-role-key>
 NEXT_PUBLIC_WHATSAPP_NUMBER=524561266998
 
@@ -204,7 +209,7 @@ El proyecto está listo para desplegarse en **Vercel**:
 | Variable | Visibilidad | Descripción |
 |---|---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Pública | URL del proyecto Supabase |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Pública | Clave anónima de Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Pública | Clave anónima de Supabase (también admite `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY`) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Privada (servidor) | Clave de rol de servicio (nunca exponer al cliente) |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | Pública | Número de WhatsApp Business (con código de país) |
 | `RESEND_API_KEY` | Privada (servidor) | API key de [Resend](https://resend.com) — opcional, tier gratuito disponible |
@@ -219,6 +224,7 @@ El proyecto está listo para desplegarse en **Vercel**:
 - RLS habilitado en todas las tablas — los datos solo son accesibles para usuarios autenticados
 - Las variables sensibles (`SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`) nunca se exponen al cliente
 - `.env.local` está en `.gitignore`
+- Las API routes validan la presencia de variables de entorno al inicio y retornan 503 con mensaje claro si faltan
 
 ---
 
@@ -228,10 +234,28 @@ El proyecto está listo para desplegarse en **Vercel**:
 - Los enlaces de WhatsApp y redes sociales incluyen `aria-label` descriptivo con aviso de nueva pestaña
 - El botón de menú hamburguesa declara `aria-expanded`, `aria-controls` y `aria-label` dinámico
 - Inputs de formulario vinculados a `<label>` mediante `htmlFor`/`id` (newsletter usa label visualmente oculto con `.sr-only`)
+- Validación HTML5 nativa activada en formularios: `required`, `minLength`, `maxLength`, `pattern` + `title` descriptivo
+- Ambos formularios incluyen enlace al Aviso de Privacidad para cumplimiento de la LFPDPPP
 - Mensajes de estado usan `role="status"` (éxito/info) y `role="alert"` (errores) para lectores de pantalla
 - Los botones deshabilitados incluyen `disabled:cursor-not-allowed` para feedback visual
 - La navegación principal tiene `aria-label="Navegación principal"` como landmark ARIA
 - Los SVGs decorativos no tienen texto alternativo innecesario (contenidos en `<a>` con `aria-label` propio)
+
+---
+
+## Privacidad y Cumplimiento Legal
+
+El sitio incluye un **Aviso de Privacidad** en `/aviso-de-privacidad` conforme a la [Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP)](https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPDPPP.pdf):
+
+- Identidad del responsable del tratamiento
+- Datos personales recabados (nombre, teléfono, correo, descripción del caso)
+- Finalidades primarias y secundarias del tratamiento
+- Transferencias a encargados (Supabase, Resend) con enlace a sus políticas
+- Procedimiento para ejercer derechos ARCO
+- Medidas de seguridad (TLS, RLS, acceso restringido)
+- Autoridad supervisora: INAI
+
+Los formularios de contacto y newsletter muestran un aviso de consentimiento con enlace a esta página.
 
 ---
 
