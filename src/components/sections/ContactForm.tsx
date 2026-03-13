@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { waUrl } from '@/lib/whatsapp'
 
@@ -13,6 +13,15 @@ export default function ContactForm() {
   const [mode,     setMode]     = useState<Mode>('whatsapp')
   const [status,   setStatus]   = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [asunto,   setAsunto]   = useState('')
+
+  useEffect(() => {
+    function handler(e: Event) {
+      setAsunto((e as CustomEvent<string>).detail)
+    }
+    window.addEventListener('seleccionar-area', handler)
+    return () => window.removeEventListener('seleccionar-area', handler)
+  }, [])
 
   function switchMode(next: Mode) {
     setMode(next)
@@ -25,7 +34,6 @@ export default function ContactForm() {
     const form     = e.currentTarget
     const nombre   = (form.elements.namedItem('nombre')   as HTMLInputElement).value.trim()
     const telefono = (form.elements.namedItem('telefono') as HTMLInputElement).value.trim()
-    const asunto   = (form.elements.namedItem('asunto')   as HTMLSelectElement).value
     const mensaje  = (form.elements.namedItem('mensaje')  as HTMLTextAreaElement).value.trim()
 
     setStatus('loading')
@@ -47,6 +55,7 @@ export default function ContactForm() {
 
       setStatus('success')
       form.reset()
+      setAsunto('')
       return
     }
 
@@ -67,6 +76,7 @@ export default function ContactForm() {
 
       setStatus('success')
       form.reset()
+      setAsunto('')
     } catch {
       setErrorMsg('Sin conexión. Revisa tu internet e intenta de nuevo.')
       setStatus('error')
@@ -144,7 +154,13 @@ export default function ContactForm() {
           <label htmlFor="cf-asunto" className="block text-[0.85rem] font-semibold mb-1.5">
             Área legal
           </label>
-          <select id="cf-asunto" name="asunto" className={inputClass}>
+          <select
+            id="cf-asunto"
+            name="asunto"
+            value={asunto}
+            onChange={e => setAsunto(e.target.value)}
+            className={inputClass}
+          >
             {areas.map(a => (
               <option key={a} value={a}>{a || '— Selecciona un área —'}</option>
             ))}
@@ -180,14 +196,14 @@ export default function ContactForm() {
 
         {/* Feedback WhatsApp */}
         {status === 'success' && mode === 'whatsapp' && (
-          <p role="status" className="mt-3 text-[0.85rem] text-[#16a34a] text-center">
+          <p role="status" className="mt-3 text-[0.85rem] text-[#15803d] text-center">
             <span aria-hidden="true">✅</span> Se abrió WhatsApp con tu mensaje. Tu consulta también quedó registrada.
           </p>
         )}
 
         {/* Feedback email */}
         {status === 'success' && mode === 'email' && (
-          <p role="status" className="mt-3 text-[0.85rem] text-[#16a34a] text-center">
+          <p role="status" className="mt-3 text-[0.85rem] text-[#15803d] text-center">
             <span aria-hidden="true">✅</span> Mensaje recibido. Adrián te contactará en las próximas horas.
           </p>
         )}

@@ -1,3 +1,5 @@
+'use client'
+
 const servicios = [
   { icon: '👨‍👩‍👧', title: 'Derecho Familiar', desc: 'Divorcios, custodia de menores, pensión alimenticia, adopción y violencia familiar.' },
   { icon: '⚖️', title: 'Derecho Civil', desc: 'Herencias, sucesiones, contratos, responsabilidad civil y demandas civiles.' },
@@ -6,6 +8,11 @@ const servicios = [
   { icon: '📋', title: 'Asesoría Preventiva', desc: 'Revisión de contratos, consultoría empresarial y prevención de litigios.' },
   { icon: '🏠', title: 'Derecho Inmobiliario', desc: 'Compraventa de inmuebles, arrendamientos, regularización de propiedades y escrituración.' },
 ]
+
+function solicitar(area: string) {
+  window.dispatchEvent(new CustomEvent('seleccionar-area', { detail: area }))
+  document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })
+}
 
 export default function Servicios() {
   return (
@@ -25,11 +32,19 @@ export default function Servicios() {
           {servicios.map(({ icon, title, desc }) => (
             <div
               key={title}
-              className="border border-border rounded-xl p-7 transition-all hover:shadow-[0_8px_24px_rgba(26,86,219,0.1)] hover:border-[#bfdbfe] hover:-translate-y-0.5"
+              className="border border-border rounded-xl p-7 transition-all hover:shadow-[0_8px_24px_rgba(26,86,219,0.1)] hover:border-[#bfdbfe] hover:-translate-y-0.5 flex flex-col"
             >
               <div className="text-4xl mb-4" aria-hidden="true">{icon}</div>
               <h3 className="text-base font-bold mb-2">{title}</h3>
-              <p className="text-[0.88rem] text-muted">{desc}</p>
+              <p className="text-[0.88rem] text-muted mb-4 flex-1">{desc}</p>
+              <button
+                type="button"
+                onClick={() => solicitar(title)}
+                aria-label={`Solicitar consulta sobre ${title}`}
+                className="self-start text-accent text-[0.82rem] font-semibold hover:underline focus-visible:outline-none focus-visible:underline"
+              >
+                Solicitar consulta →
+              </button>
             </div>
           ))}
         </div>
