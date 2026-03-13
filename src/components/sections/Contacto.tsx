@@ -43,7 +43,7 @@ export default function Contacto() {
             </div>
 
             <a
-              className="inline-flex items-center gap-2.5 bg-[#25d366] text-white font-bold text-[0.95rem] px-7 py-3.5 rounded-lg mt-6 transition-all hover:bg-[#1ebe5d] hover:-translate-y-px"
+              className="inline-flex items-center gap-2.5 bg-[#15803d] text-white font-bold text-[0.95rem] px-7 py-3.5 rounded-lg mt-6 transition-all hover:bg-[#166534] hover:-translate-y-px"
               href={waUrl('Hola Adrián, necesito asesoría legal.')}
               target="_blank"
               rel="noopener noreferrer"

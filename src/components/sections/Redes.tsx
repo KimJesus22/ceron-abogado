@@ -37,7 +37,7 @@ export default function Redes() {
             Facebook
           </a>
           <a
-            className="inline-flex items-center gap-2.5 text-white font-bold text-[0.93rem] px-6 py-3 rounded-lg bg-[#25d366] transition-all hover:opacity-90 hover:-translate-y-px"
+            className="inline-flex items-center gap-2.5 text-white font-bold text-[0.93rem] px-6 py-3 rounded-lg bg-[#15803d] transition-all hover:bg-[#166534] hover:-translate-y-px"
             href={waUrl()}
             target="_blank"
             rel="noopener noreferrer"
@@ -72,7 +72,7 @@ export default function Redes() {
           <div className="flex flex-col gap-6">
             {tips.map(({ n, title, desc }) => (
               <div key={n} className="flex gap-5 items-start">
-                <div className="text-[1.4rem] font-black text-[#bfdbfe] leading-none flex-shrink-0 w-8">{n}</div>
+                <div className="text-[1.4rem] font-black text-[#bfdbfe] leading-none flex-shrink-0 w-8" aria-hidden="true">{n}</div>
                 <div>
                   <strong className="block text-[0.95rem] mb-1">{title}</strong>
                   <p className="text-[0.85rem] text-muted m-0">{desc}</p>

@@ -3,7 +3,7 @@ import { articles, formatDate } from '@/lib/articles'
 
 const categoryColor: Record<string, string> = {
   'Derecho Familiar':     'bg-[#eff6ff] text-accent',
-  'Derecho Laboral':      'bg-[#f0fdf4] text-[#16a34a]',
+  'Derecho Laboral':      'bg-[#f0fdf4] text-[#15803d]',
   'Derecho Civil':        'bg-[#fefce8] text-[#b45309]',
   'Derecho Inmobiliario': 'bg-[#fdf4ff] text-[#9333ea]',
 }

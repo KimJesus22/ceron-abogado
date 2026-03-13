@@ -39,7 +39,7 @@ export default function Newsletter() {
       </p>
 
       {status === 'success' ? (
-        <p role="status" className="text-[0.9rem] text-[#16a34a] font-semibold">✓ ¡Suscrito! Gracias por unirte.</p>
+        <p role="status" className="text-[0.9rem] text-[#15803d] font-semibold">✓ ¡Suscrito! Gracias por unirte.</p>
       ) : (
         <form onSubmit={handleSubmit} className="flex gap-3 flex-wrap" aria-label="Suscripción al newsletter">
           <label htmlFor="newsletter-email" className="sr-only">
@@ -70,10 +70,10 @@ export default function Newsletter() {
         <p role="status" className="mt-2 text-[0.82rem] text-muted">Este correo ya está suscrito.</p>
       )}
       {status === 'unconfigured' && (
-        <p role="alert" className="mt-2 text-[0.82rem] text-amber-600">El servicio aún no está configurado. Inténtalo más tarde.</p>
+        <p role="alert" className="mt-2 text-[0.82rem] text-amber-800">El servicio aún no está configurado. Inténtalo más tarde.</p>
       )}
       {status === 'error' && (
-        <p role="alert" className="mt-2 text-[0.82rem] text-red-500">No se pudo procesar la suscripción. Intenta de nuevo.</p>
+        <p role="alert" className="mt-2 text-[0.82rem] text-red-700">No se pudo procesar la suscripción. Intenta de nuevo.</p>
       )}
 
       <p className="mt-4 text-[0.75rem] text-muted">
