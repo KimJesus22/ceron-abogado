@@ -21,7 +21,7 @@ Sitio web profesional para **Adrián Cerón López**, Licenciado en Derecho con 
 
 ### Sitio Público
 - **Hero** — Presentación del abogado con llamadas a la acción (WhatsApp y servicios)
-- **Sobre mí** — Perfil profesional con foto, bio, credenciales y cédula profesional (PDF descargable)
+- **Sobre mí** — Perfil profesional con foto, bio, credenciales y cédula profesional (número y fecha de expedición visibles en página + PDF como respaldo)
 - **Servicios** — Seis áreas de práctica legal con descripciones detalladas
 - **Tarifas** — Precios transparentes en MXN con opción de cotización personalizada vía WhatsApp
 - **Valores** — Cuatro pilares: atención personalizada, transparencia, comunicación constante y ética profesional
@@ -31,6 +31,7 @@ Sitio web profesional para **Adrián Cerón López**, Licenciado en Derecho con 
 - **Testimonios** — Reseñas verificadas de clientes reales publicadas con permiso expreso
 - **Recursos legales** (`/recursos`) — Blog estático con artículos de orientación legal (divorcio, despido, herencias, inmuebles); mejora SEO
 - **Aviso de Privacidad** (`/aviso-de-privacidad`) — Página legal conforme a la LFPDPPP con derechos ARCO
+- **Términos de Uso** (`/terminos-de-uso`) — 8 secciones: aceptación, carácter informativo, datos, propiedad intelectual, responsabilidad, enlaces externos, modificaciones y ley aplicable (Guanajuato)
 
 ### Panel de Administración (`/admin`)
 - Acceso protegido con autenticación por correo y contraseña (Supabase Auth)
@@ -60,6 +61,8 @@ ceron-abogado/
 │   │   │   └── newsletter/route.ts # API: suscripciones
 │   │   ├── aviso-de-privacidad/
 │   │   │   └── page.tsx            # Aviso de privacidad (LFPDPPP)
+│   │   ├── terminos-de-uso/
+│   │   │   └── page.tsx            # Términos de uso (8 secciones)
 │   │   ├── recursos/
 │   │   │   ├── page.tsx            # Listado de artículos legales
 │   │   │   └── [slug]/page.tsx     # Artículo individual (SSG)
@@ -67,9 +70,10 @@ ceron-abogado/
 │   │   ├── page.tsx                # Página de inicio
 │   │   └── globals.css             # Estilos globales con Tailwind
 │   ├── components/
+│   │   ├── JsonLd.tsx              # Schema.org (LegalService + Person) para SEO
 │   │   ├── layout/
 │   │   │   ├── Navbar.tsx          # Navegación con menú móvil
-│   │   │   └── Footer.tsx          # Pie de página
+│   │   │   └── Footer.tsx          # Pie de página con enlaces legales
 │   │   └── sections/               # Secciones de la página
 │   │       ├── Hero.tsx
 │   │       ├── Sobre.tsx
@@ -251,6 +255,17 @@ El proyecto está listo para desplegarse en **Vercel**:
 
 ---
 
+## SEO
+
+- **Schema.org JSON-LD** — `LegalService` + `Person` en `@graph` (nombre, teléfono, dirección, coordenadas, horario, 7 ciudades de cobertura, 6 servicios) renderizado como `<script type="application/ld+json">` en el `<head>`
+- **`metadataBase`** — resuelve URLs relativas de OpenGraph/Twitter en producción usando `NEXT_PUBLIC_SITE_URL`
+- **Keywords expandidas** — 23 términos locales (Jaral del Progreso, Valle de Santiago, Yuriria, Salamanca…) en el layout raíz y en `/recursos`
+- **OpenGraph** — título, descripción, imagen, `locale: es_MX`, `siteName`
+- **Twitter card** — tipo `summary` con imagen de perfil
+- **Imágenes optimizadas** — formato AVIF preferido (30–50 % más ligero que WebP), TTL de caché de 1 año, `loading="lazy"` en imágenes fuera del viewport inicial, prop `sizes` para servir resoluciones correctas
+
+---
+
 ## Privacidad y Cumplimiento Legal
 
 El sitio incluye un **Aviso de Privacidad** en `/aviso-de-privacidad` conforme a la [Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP)](https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPDPPP.pdf):
@@ -264,6 +279,8 @@ El sitio incluye un **Aviso de Privacidad** en `/aviso-de-privacidad` conforme a
 - Autoridad supervisora: INAI
 
 Los formularios de contacto y newsletter muestran un aviso de consentimiento con enlace a esta página.
+
+El sitio también incluye una página de **Términos de Uso** en `/terminos-de-uso` con 8 secciones: aceptación, carácter informativo del contenido, tratamiento de datos, propiedad intelectual, limitación de responsabilidad, enlaces externos, modificaciones y ley aplicable (México / Guanajuato). El **pie de página** enlaza directamente a ambas páginas legales.
 
 ---
 

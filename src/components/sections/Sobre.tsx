@@ -50,15 +50,24 @@ export default function Sobre() {
                 </span>
               ))}
             </div>
-            <a
-              href="/cedula-adrian-ceron.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Ver cédula profesional de Adrián Cerón López (PDF, abre en nueva pestaña)"
-              className="inline-flex items-center gap-2 bg-[#f0f4ff] text-accent text-[0.85rem] font-semibold px-4 py-2 rounded-lg border border-[#bfdbfe] mt-4 transition-colors hover:bg-[#dbeafe]"
-            >
-              <span aria-hidden="true">📄</span> Ver cédula profesional
-            </a>
+            <div className="mt-6 bg-[#f0f4ff] border border-[#bfdbfe] rounded-xl px-4 py-3 flex flex-col gap-0.5">
+              <p className="text-[0.75rem] font-bold tracking-[0.08em] uppercase text-accent mb-1">
+                Cédula profesional
+              </p>
+              <div className="flex flex-wrap gap-x-6 gap-y-1 text-[0.85rem] text-[#1e3a5f]">
+                <span><span className="text-muted font-normal">No. </span><strong>15372157</strong></span>
+                <span><span className="text-muted font-normal">Expedición: </span><strong>10 ene. 2026</strong></span>
+              </div>
+              <a
+                href="/cedula-adrian-ceron.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Ver cédula profesional de Adrián Cerón López (PDF, abre en nueva pestaña)"
+                className="inline-flex items-center gap-1 text-accent text-[0.8rem] font-semibold mt-2 hover:underline w-fit"
+              >
+                <span aria-hidden="true">📄</span> Ver documento PDF
+              </a>
+            </div>
           </div>
         </div>
       </div>
