@@ -23,7 +23,8 @@ export default function Sobre() {
               width={340}
               height={400}
               className="w-full h-full object-cover block"
-              priority
+              sizes="(max-width: 768px) 100vw, 340px"
+              loading="lazy"
             />
           </div>
 
@@ -56,7 +57,7 @@ export default function Sobre() {
               aria-label="Ver cédula profesional de Adrián Cerón López (PDF, abre en nueva pestaña)"
               className="inline-flex items-center gap-2 bg-[#f0f4ff] text-accent text-[0.85rem] font-semibold px-4 py-2 rounded-lg border border-[#bfdbfe] mt-4 transition-colors hover:bg-[#dbeafe]"
             >
-              📄 Ver cédula profesional
+              <span aria-hidden="true">📄</span> Ver cédula profesional
             </a>
           </div>
         </div>

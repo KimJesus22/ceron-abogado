@@ -55,7 +55,7 @@ export default function Tarifas() {
             rel="noopener noreferrer"
             aria-label="Pedir cotización personalizada por WhatsApp"
           >
-            💬 Pedir cotización personalizada
+            <span aria-hidden="true">💬</span> Pedir cotización personalizada
           </a>
         </div>
       </div>

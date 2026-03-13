@@ -13,7 +13,7 @@ export default function Hero() {
         <h1 className="text-[clamp(2.2rem,5vw,3.6rem)] font-extrabold tracking-[-1.5px] leading-[1.1] mb-5">
           Adrián <span className="text-accent">Cerón López</span>
         </h1>
-        <p className="text-[0.9rem] text-muted mb-4">📍 Jaral del Progreso, Guanajuato</p>
+        <p className="text-[0.9rem] text-muted mb-4"><span aria-hidden="true">📍</span> Jaral del Progreso, Guanajuato</p>
         <p className="text-[1.1rem] text-muted max-w-[520px] mx-auto mb-10">
           Asesoría legal comprometida, clara y accesible. Defiendo tus derechos
           con responsabilidad y dedicación.
@@ -25,7 +25,7 @@ export default function Hero() {
           rel="noopener noreferrer"
           aria-label="Consulta por WhatsApp con Adrián Cerón López"
         >
-          💬 Consulta por WhatsApp
+          <span aria-hidden="true">💬</span> Consulta por WhatsApp
         </a>
         <a
           className="inline-flex items-center gap-2 bg-transparent text-[#111] font-semibold text-[0.95rem] px-8 py-3.5 rounded-lg border border-border ml-4 mt-3 transition-all hover:border-accent hover:text-accent hover:-translate-y-px"

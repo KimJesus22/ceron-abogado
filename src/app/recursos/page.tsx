@@ -6,6 +6,17 @@ export const metadata: Metadata = {
   title: 'Recursos legales | Adrián Cerón López — Abogado en Guanajuato',
   description:
     'Artículos legales sobre divorcio, despido injustificado, herencias e inmuebles en México. Información confiable redactada por el Lic. Adrián Cerón López.',
+  keywords: [
+    'recursos legales México',
+    'artículos derecho Guanajuato',
+    'divorcio en México',
+    'despido injustificado liquidación',
+    'herencias sucesiones México',
+    'comprar inmueble Guanajuato',
+    'orientación legal gratuita',
+    'blog derecho México',
+    'Adrián Cerón López abogado',
+  ],
 }
 
 const categoryColor: Record<string, string> = {

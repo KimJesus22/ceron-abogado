@@ -27,7 +27,7 @@ export default function Servicios() {
               key={title}
               className="border border-border rounded-xl p-7 transition-all hover:shadow-[0_8px_24px_rgba(26,86,219,0.1)] hover:border-[#bfdbfe] hover:-translate-y-0.5"
             >
-              <div className="text-4xl mb-4">{icon}</div>
+              <div className="text-4xl mb-4" aria-hidden="true">{icon}</div>
               <h3 className="text-base font-bold mb-2">{title}</h3>
               <p className="text-[0.88rem] text-muted">{desc}</p>
             </div>

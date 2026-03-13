@@ -87,7 +87,7 @@ export default function ContactForm() {
             mode === 'whatsapp' ? 'bg-accent text-white' : 'bg-white text-muted hover:bg-section-bg'
           }`}
         >
-          💬 WhatsApp
+          <span aria-hidden="true">💬</span> WhatsApp
         </button>
         <button
           type="button"
@@ -97,7 +97,7 @@ export default function ContactForm() {
             mode === 'email' ? 'bg-accent text-white' : 'bg-white text-muted hover:bg-section-bg'
           }`}
         >
-          ✉️ Mensaje directo
+          <span aria-hidden="true">✉️</span> Mensaje directo
         </button>
       </div>
 
@@ -168,33 +168,34 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === 'loading'}
+          aria-label={status === 'loading' ? 'Enviando…' : mode === 'whatsapp' ? 'Enviar por WhatsApp' : 'Enviar mensaje'}
           className="w-full py-3.5 bg-accent text-white border-none rounded-lg font-[inherit] text-[0.95rem] font-bold cursor-pointer transition-colors hover:bg-accent-dark disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {status === 'loading'
             ? 'Enviando…'
             : mode === 'whatsapp'
-              ? '💬 Enviar por WhatsApp'
-              : '✉️ Enviar mensaje'}
+              ? <><span aria-hidden="true">💬</span> Enviar por WhatsApp</>
+              : <><span aria-hidden="true">✉️</span> Enviar mensaje</>}
         </button>
 
         {/* Feedback WhatsApp */}
         {status === 'success' && mode === 'whatsapp' && (
           <p role="status" className="mt-3 text-[0.85rem] text-[#16a34a] text-center">
-            ✅ Se abrió WhatsApp con tu mensaje. Tu consulta también quedó registrada.
+            <span aria-hidden="true">✅</span> Se abrió WhatsApp con tu mensaje. Tu consulta también quedó registrada.
           </p>
         )}
 
         {/* Feedback email */}
         {status === 'success' && mode === 'email' && (
           <p role="status" className="mt-3 text-[0.85rem] text-[#16a34a] text-center">
-            ✅ Mensaje recibido. Adrián te contactará en las próximas horas.
+            <span aria-hidden="true">✅</span> Mensaje recibido. Adrián te contactará en las próximas horas.
           </p>
         )}
 
         {/* Error */}
         {status === 'error' && (
           <p role="alert" className="mt-3 text-[0.85rem] text-red-600 text-center">
-            ❌ {errorMsg}
+            <span aria-hidden="true">❌</span> {errorMsg}
           </p>
         )}
 
